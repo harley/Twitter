@@ -13,8 +13,11 @@ class Tweet: NSObject {
     var text: String?
     var createdAtString: String?
     var createdAt: NSDate?
+    var raw: NSDictionary
 
     init(dictionary: NSDictionary) {
+        raw = dictionary
+
         user = User(dictionary: dictionary["user"] as! NSDictionary)
         text = dictionary["text"] as? String
         createdAtString = dictionary["created_at"] as? String

@@ -11,6 +11,7 @@
 		9D78C5041BA5285B00B00BC2 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D78C5031BA5285B00B00BC2 /* User.swift */; };
 		9D78C5061BA5288500B00BC2 /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D78C5051BA5288500B00BC2 /* Tweet.swift */; };
 		9D78C5091BA53F0700B00BC2 /* TweetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D78C5081BA53F0700B00BC2 /* TweetsViewController.swift */; };
+		9D78C50D1BA5459300B00BC2 /* TweetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D78C50C1BA5459300B00BC2 /* TweetCell.swift */; };
 		9DADDD2E1BA4279C00C529AD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DADDD2D1BA4279C00C529AD /* AppDelegate.swift */; };
 		9DADDD301BA4279C00C529AD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DADDD2F1BA4279C00C529AD /* ViewController.swift */; };
 		9DADDD331BA4279C00C529AD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DADDD311BA4279C00C529AD /* Main.storyboard */; };
@@ -41,6 +42,7 @@
 		9D78C5031BA5285B00B00BC2 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		9D78C5051BA5288500B00BC2 /* Tweet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tweet.swift; sourceTree = "<group>"; };
 		9D78C5081BA53F0700B00BC2 /* TweetsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetsViewController.swift; sourceTree = "<group>"; };
+		9D78C50C1BA5459300B00BC2 /* TweetCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetCell.swift; sourceTree = "<group>"; };
 		9DADDD281BA4279C00C529AD /* Twitter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Twitter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DADDD2C1BA4279C00C529AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9DADDD2D1BA4279C00C529AD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -113,6 +115,23 @@
 			name = API;
 			sourceTree = "<group>";
 		};
+		9D78C50A1BA5456800B00BC2 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				9DADDD2F1BA4279C00C529AD /* ViewController.swift */,
+				9D78C5081BA53F0700B00BC2 /* TweetsViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		9D78C50B1BA5456D00B00BC2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9D78C50C1BA5459300B00BC2 /* TweetCell.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		9DADDD1F1BA4279C00C529AD = {
 			isa = PBXGroup;
 			children = (
@@ -137,16 +156,16 @@
 		9DADDD2A1BA4279C00C529AD /* Twitter */ = {
 			isa = PBXGroup;
 			children = (
+				9D78C50B1BA5456D00B00BC2 /* Views */,
+				9D78C50A1BA5456800B00BC2 /* Controllers */,
 				9D78C5071BA52B9800B00BC2 /* API */,
 				9D78C5021BA5284400B00BC2 /* Models */,
 				9DADDD2D1BA4279C00C529AD /* AppDelegate.swift */,
-				9DADDD2F1BA4279C00C529AD /* ViewController.swift */,
 				9DADDD311BA4279C00C529AD /* Main.storyboard */,
 				9DADDD341BA4279C00C529AD /* Images.xcassets */,
 				9DADDD361BA4279C00C529AD /* LaunchScreen.xib */,
 				9DADDD2B1BA4279C00C529AD /* Supporting Files */,
 				9DADDD5D1BA434E000C529AD /* Twitter-Bridging-Header.h */,
-				9D78C5081BA53F0700B00BC2 /* TweetsViewController.swift */,
 			);
 			path = Twitter;
 			sourceTree = "<group>";
@@ -344,6 +363,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9D78C5041BA5285B00B00BC2 /* User.swift in Sources */,
+				9D78C50D1BA5459300B00BC2 /* TweetCell.swift in Sources */,
 				9D78C5061BA5288500B00BC2 /* Tweet.swift in Sources */,
 				9D78C5091BA53F0700B00BC2 /* TweetsViewController.swift in Sources */,
 				9DADDD301BA4279C00C529AD /* ViewController.swift in Sources */,
