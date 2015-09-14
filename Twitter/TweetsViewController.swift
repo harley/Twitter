@@ -10,22 +10,26 @@ import UIKit
 
 class TweetsViewController: UIViewController {
     var tweets: [Tweet]?
+    var refreshControl:UIRefreshControl!
 
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        TwitterClient.sharedInstance.homeTimelineWithParams(nil, completion: { (tweets, error) -> () in
-            self.tweets = tweets
-            println("tweets: \(tweets)")
-            self.tableView.reloadData()
-        })
+        loadTweets(refreshing: false)
+
         // Do any additional setup after loading the view.
         tableView.dataSource = self
         tableView.delegate = self
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 100
+
+        refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+
+        tableView.addSubview(refreshControl)
     }
 
     override func didReceiveMemoryWarning() {
@@ -47,6 +51,25 @@ class TweetsViewController: UIViewController {
     }
     */
 
+    // MARK: - Pull to refresh
+
+
+    func refresh(sender: AnyObject) {
+        //        println(sender)
+        loadTweets(refreshing: true)
+    }
+
+    func loadTweets(refreshing: Bool = false) {
+        TwitterClient.sharedInstance.homeTimelineWithParams(nil, completion: { (tweets, error) -> () in
+            self.tweets = tweets
+            println("first tweet: \(tweets?.first)")
+            self.tableView.reloadData()
+
+            if refreshing {
+                self.refreshControl.endRefreshing()
+            }
+        })
+    }
 }
 
 extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
