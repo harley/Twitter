@@ -8,6 +8,7 @@ platform :ios, '8.0'
 def shared_pods
   pod "AFNetworking", '~> 2.5.4'
   pod "BDBOAuth1Manager"
+  pod 'DateTools'
 end
 
 target 'Twitter' do
