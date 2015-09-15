@@ -68,6 +68,15 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
                 println("Failed to receive access token: \(error)")
                 self.loginCompletion?(user: nil, error: error)
         }
+    }
 
+    func postTweetWithParams(params: NSDictionary?, completion: (status: Tweet?, error: NSError?) -> ()) {
+        self.POST("1.1/statuses/update.json", parameters: params, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
+            let status = Tweet(dictionary: response as! NSDictionary)
+            completion(status: status, error: nil)
+            }) { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
+                println("error posting status update")
+                completion(status: nil, error: error)
+        }
     }
 }
