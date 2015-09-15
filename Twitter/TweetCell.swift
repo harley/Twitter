@@ -17,6 +17,7 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var retweetCountLabel: UILabel!
     @IBOutlet weak var favoriteCountLabel: UILabel!
     @IBOutlet weak var timeAgoLabel: UILabel!
+    @IBOutlet weak var tweetImageView: UIImageView!
 
     var tweet: Tweet! {
         didSet {
@@ -34,10 +35,19 @@ class TweetCell: UITableViewCell {
             if let retweetCount = tweet.raw["retweet_count"] as? Int {
                 retweetCountLabel.text = "\(retweetCount)"
             }
-            if let favoritesCount = tweet.raw["favourites_count"] as? Int {
+            if let favoritesCount = tweet.raw["favorite_count"] as? Int {
                 favoriteCountLabel.text = "\(favoritesCount)"
             }
             timeAgoLabel.text = tweet.createdAt!.shortTimeAgoSinceNow()
+
+            let media = tweet.raw.valueForKeyPath("entities.media") as? NSArray
+            if media != nil {
+                let media0 = media?.firstObject as! NSDictionary
+                let mediaURL = media0["media_url"] as? String
+                if  mediaURL != nil {
+                    tweetImageView.setImageWithURL(NSURL(string: mediaURL!))
+                }
+            }
         }
     }
 

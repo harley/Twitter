@@ -26,7 +26,7 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
             println("Loaded \(tweets.count) tweets")
             completion(tweets: tweets, error: nil)
             }, failure: { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
-                println("error getting timeline")
+                println("error getting timeline: \(error)")
                 completion(tweets: nil, error: error)
         })
     }
