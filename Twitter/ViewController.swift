@@ -31,7 +31,6 @@ class ViewController: UIViewController {
             } else {
                 // handle login error
             }
-
         }
     }
 

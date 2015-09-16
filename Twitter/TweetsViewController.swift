@@ -23,7 +23,7 @@ class TweetsViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 100
+        tableView.estimatedRowHeight = 200
 
         refreshControl = UIRefreshControl()
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
@@ -104,23 +104,10 @@ class TweetsViewController: UIViewController {
             }
         })
     }
-}
 
-extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tweets?.count ?? 0
+    @IBAction func onReplyFromTimeline(sender: AnyObject) {
+        performSegueWithIdentifier("composeSegue", sender: sender)
     }
-
-    // Row display. Implementers should *always* try to reuse cells by setting each cell's reuseIdentifier and querying for available reusable cells with dequeueReusableCellWithIdentifier:
-    // Cell gets various attributes set automatically based on table (separators) and data source (accessory views, editing controls)
-
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("TweetCell", forIndexPath: indexPath) as! TweetCell
-        cell.tweet = tweets![indexPath.row] as Tweet
-
-        return cell
-    }
-
 
     func loadMoreTweets(){
         let tweetId = tweets?.last?.raw["id"] as! NSNumber
@@ -138,11 +125,27 @@ extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
             }
 
             self.tableView.finishInfiniteScroll()
-            
+
         })
     }
+}
 
-    @IBAction func onReplyFromTimeline(sender: AnyObject) {
-        performSegueWithIdentifier("composeSegue", sender: sender)
+extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return tweets?.count ?? 0
+    }
+
+    // Row display. Implementers should *always* try to reuse cells by setting each cell's reuseIdentifier and querying for available reusable cells with dequeueReusableCellWithIdentifier:
+    // Cell gets various attributes set automatically based on table (separators) and data source (accessory views, editing controls)
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("TweetCell", forIndexPath: indexPath) as! TweetCell
+        cell.tweet = tweets![indexPath.row] as Tweet
+
+        return cell
+    }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
 }

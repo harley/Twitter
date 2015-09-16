@@ -19,11 +19,9 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var timeAgoLabel: UILabel!
     @IBOutlet weak var tweetImageView: UIImageView!
     @IBOutlet weak var favoriteButton: UIButton!
-    var favoriteCount: Int?
 
     var tweet: Tweet! {
         didSet {
-//            println("setting tweet: \(tweet.raw)")
             tweetTextLabel.text = tweet.text
             tweetTextLabel.preferredMaxLayoutWidth = tweetTextLabel.frame.size.width
 
@@ -34,23 +32,20 @@ class TweetCell: UITableViewCell {
             userNameLabel.text = tweet.user?.name
             userHandleLabel.text = "@\(tweet.user!.screenName!)"
 
-            if let retweetCount = tweet.raw["retweet_count"] as? Int {
+            if let retweetCount = tweet.retweetCount {
                 retweetCountLabel.text = "\(retweetCount)"
             }
 
-            favoriteCount = tweet.raw["favorite_count"] as? Int
-            if favoriteCount != nil {
-                favoriteCountLabel.text = "\(favoriteCount!)"
+            if let favoriteCount = tweet.favoriteCount {
+                favoriteCountLabel.text = "\(favoriteCount)"
             }
+
             timeAgoLabel.text = tweet.createdAt!.shortTimeAgoSinceNow()
 
-            let media = tweet.raw.valueForKeyPath("entities.media") as? NSArray
-            if media != nil {
-                let media0 = media?.firstObject as! NSDictionary
-                let mediaURL = media0["media_url"] as? String
-                if  mediaURL != nil {
-                    tweetImageView.setImageWithURL(NSURL(string: mediaURL!))
-                }
+            if  tweet.mediaURL != nil {
+                tweetImageView.setImageWithURL(NSURL(string: tweet.mediaURL!))
+            } else {
+                tweetImageView.image = nil
             }
         }
     }
@@ -61,6 +56,8 @@ class TweetCell: UITableViewCell {
 
         profilePicImageView.layer.cornerRadius = 5
         profilePicImageView.clipsToBounds = true
+        tweetTextLabel.preferredMaxLayoutWidth = tweetTextLabel.frame.size.width
+
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -83,15 +80,11 @@ class TweetCell: UITableViewCell {
         let image  = UIImage(named: "favorite_on")
         button.setImage(image!, forState: UIControlState.Normal)
 
-        if favoriteCount == nil {
-            favoriteCount = 1
-        } else {
-            favoriteCount = favoriteCount! + 1
-        }
+        var favoriteCount = tweet.favoriteCount ?? 0
+        favoriteCount = favoriteCount + 1
 
-        let cell = button.superview?.superview as? TweetCell
-        if cell != nil {
-            cell!.favoriteCountLabel.text = "\(favoriteCount!)"
+        if let cell = button.superview?.superview as? TweetCell {
+            cell.favoriteCountLabel.text = "\(favoriteCount)"
         }
     }
 }

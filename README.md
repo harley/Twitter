@@ -25,5 +25,7 @@ Optional
 - [x] User can load more tweets once they reach the bottom of the feed using infinite loading similar to the actual Twitter client.
 
 # Bug report
+- [ ] Clicking on Favorite does not update the server yet (not yet implemented)
+
 
 - The raw link on http://courses.coderschool.vn/content/week_3/readme links to the wrong README file

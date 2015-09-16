@@ -28,32 +28,30 @@ class TweetViewController: UIViewController {
 
         // Do any additional setup after loading the view.
 
-        println("setting tweet: \(tweet.raw)")
         tweetTextLabel.text = tweet.text
         tweetTextLabel.preferredMaxLayoutWidth = tweetTextLabel.frame.size.width
 
-        let profileImageUrl = tweet.user?.profileImageUrl
-        if profileImageUrl != nil {
-            profilePicImageView.setImageWithURL(NSURL(string: profileImageUrl!))
+        if let user = tweet.user {
+            let profileImageUrl = user.profileImageUrl
+            if profileImageUrl != nil {
+                profilePicImageView.setImageWithURL(NSURL(string: profileImageUrl!))
+            }
+            userNameLabel.text = user.name
+            userHandleLabel.text = "@\(user.screenName!)"
         }
-        userNameLabel.text = tweet.user?.name
-        userHandleLabel.text = "@\(tweet.user!.screenName!)"
 
-        if let retweetCount = tweet.raw["retweet_count"] as? Int {
+        if let retweetCount = tweet.retweetCount {
             retweetCountLabel.text = "\(retweetCount)"
         }
-        if let favoritesCount = tweet.raw["favorite_count"] as? Int {
-            favoriteCountLabel.text = "\(favoritesCount)"
-        }
-        //            timeAgoLabel.text = tweet.createdAt!.shortTimeAgoSinceNow()
 
-        let media = tweet.raw.valueForKeyPath("entities.media") as? NSArray
-        if media != nil {
-            let media0 = media?.firstObject as! NSDictionary
-            let mediaURL = media0["media_url"] as? String
-            if  mediaURL != nil {
-                tweetImageView.setImageWithURL(NSURL(string: mediaURL!))
-            }
+        if let favoriteCount = tweet.favoriteCount {
+            favoriteCountLabel.text = "\(favoriteCount)"
+        }
+
+        if tweet.mediaURL != nil {
+            tweetImageView.setImageWithURL(NSURL(string: tweet.mediaURL!))
+        } else {
+            tweetImageView.image = UIImage()
         }
 
         timestampLabel.text = NSDateFormatter.localizedStringFromDate(tweet.createdAt!, dateStyle: .ShortStyle, timeStyle: .ShortStyle)
