@@ -6,9 +6,10 @@ platform :ios, '8.0'
 # use_frameworks!
 
 def shared_pods
-  pod "AFNetworking", '~> 2.5.4'
-  pod "BDBOAuth1Manager"
+  pod 'AFNetworking', '~> 2.5.4'
+  pod 'BDBOAuth1Manager'
   pod 'DateTools'
+  pod 'UIScrollView-InfiniteScroll'
 end
 
 target 'Twitter' do

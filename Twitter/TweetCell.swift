@@ -18,10 +18,12 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var favoriteCountLabel: UILabel!
     @IBOutlet weak var timeAgoLabel: UILabel!
     @IBOutlet weak var tweetImageView: UIImageView!
+    @IBOutlet weak var favoriteButton: UIButton!
+    var favoriteCount: Int?
 
     var tweet: Tweet! {
         didSet {
-            println("setting tweet: \(tweet.raw)")
+//            println("setting tweet: \(tweet.raw)")
             tweetTextLabel.text = tweet.text
             tweetTextLabel.preferredMaxLayoutWidth = tweetTextLabel.frame.size.width
 
@@ -35,8 +37,10 @@ class TweetCell: UITableViewCell {
             if let retweetCount = tweet.raw["retweet_count"] as? Int {
                 retweetCountLabel.text = "\(retweetCount)"
             }
-            if let favoritesCount = tweet.raw["favorite_count"] as? Int {
-                favoriteCountLabel.text = "\(favoritesCount)"
+
+            favoriteCount = tweet.raw["favorite_count"] as? Int
+            if favoriteCount != nil {
+                favoriteCountLabel.text = "\(favoriteCount!)"
             }
             timeAgoLabel.text = tweet.createdAt!.shortTimeAgoSinceNow()
 
@@ -70,5 +74,24 @@ class TweetCell: UITableViewCell {
 
         // may not be necessary (but it's required on line 25)
         tweetTextLabel.preferredMaxLayoutWidth = tweetTextLabel.frame.size.width
+    }
+
+    // TODO: update via https://dev.twitter.com/rest/reference/post/favorites/create and rerender cell
+    @IBAction func onFavoriteFromTimeline(sender: AnyObject) {
+        let button = sender as! UIButton
+
+        let image  = UIImage(named: "favorite_on")
+        button.setImage(image!, forState: UIControlState.Normal)
+
+        if favoriteCount == nil {
+            favoriteCount = 1
+        } else {
+            favoriteCount = favoriteCount! + 1
+        }
+
+        let cell = button.superview?.superview as? TweetCell
+        if cell != nil {
+            cell!.favoriteCountLabel.text = "\(favoriteCount!)"
+        }
     }
 }

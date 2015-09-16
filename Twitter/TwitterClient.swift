@@ -20,7 +20,7 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
     var loginCompletion: ((user: User?, error: NSError?) -> ())?
 
     func homeTimelineWithParams(params: NSDictionary?, completion: (tweets: [Tweet]?, error: NSError?) -> ()) {
-        println("homeTimeline")
+        println("homeTimeline: \(params)")
         GET("1.1/statuses/home_timeline.json", parameters: params, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
             var tweets = Tweet.tweetsWithArray(response as! [NSDictionary])
             println("Loaded \(tweets.count) tweets")
@@ -55,7 +55,7 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
             TwitterClient.sharedInstance.requestSerializer.saveAccessToken(accessToken)
 
             TwitterClient.sharedInstance.GET("1.1/account/verify_credentials.json", parameters: nil, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
-                println("user: \(response)")
+//                println("user: \(response)")
                 var user = User(dictionary: response as! NSDictionary)
                 User.currentUser = user
                 println("user: \(user.name)")
@@ -71,6 +71,8 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
     }
 
     func postTweetWithParams(params: NSDictionary?, completion: (status: Tweet?, error: NSError?) -> ()) {
+        println("postTweetWithParams: \(params)")
+
         self.POST("1.1/statuses/update.json", parameters: params, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
             let status = Tweet(dictionary: response as! NSDictionary)
             completion(status: status, error: nil)

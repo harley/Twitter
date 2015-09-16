@@ -13,8 +13,11 @@ class ComposeViewController: UIViewController {
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var composeTextField: UITextField!
     @IBOutlet weak var remainingCharCountLabel: UILabel!
+    var replyToUser: User?
+    var replyToTweet: Tweet?
 
     @IBOutlet weak var tweetButtonItem: UIBarButtonItem!
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +25,10 @@ class ComposeViewController: UIViewController {
         let profileImageUrl = User.currentUser?.profileImageUrl
         if profileImageUrl != nil {
             profileImageView.setImageWithURL(NSURL(string: profileImageUrl!))
+        }
+
+        if replyToUser != nil {
+            composeTextField.text = "@\(replyToUser!.screenName!) "
         }
         // Do any additional setup after loading the view.
     }
@@ -40,14 +47,17 @@ class ComposeViewController: UIViewController {
     @IBAction func onTweet(sender: AnyObject) {
         println("tweeting: \(composeTextField.text)")
 
-        let params = ["status": composeTextField.text]
+        var params = ["status": composeTextField.text]
+        if (replyToTweet != nil) {
+            let statusId = replyToTweet!.raw["id"] as! NSNumber
+            params["in_reply_to_status_id"] = "\(statusId)"
+        }
         TwitterClient.sharedInstance.postTweetWithParams(params, completion: { (status, error) -> () in
             if error != nil {
                 println("error tweeting: \(error)")
             } else {
                 self.dismissViewControllerAnimated(true, completion: nil)
             }
-
         })
     }
 
