@@ -57,7 +57,6 @@ class TweetCell: UITableViewCell {
         profilePicImageView.layer.cornerRadius = 5
         profilePicImageView.clipsToBounds = true
         tweetTextLabel.preferredMaxLayoutWidth = tweetTextLabel.frame.size.width
-
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

@@ -71,15 +71,17 @@ class TweetsViewController: UIViewController {
             let vc = segue.destinationViewController as! TweetViewController
             vc.tweet = cell?.tweet
         } else if segue.identifier == "composeSegue" {
-            let retweetButton = sender as! UIButton
-            let cell = retweetButton.superview?.superview as? TweetCell
+            if sender is UIButton {
+                let retweetButton = sender as! UIButton
+                let cell = retweetButton.superview?.superview as? TweetCell
 
-            if cell != nil {
-                let indexPath = tableView.indexPathForCell(cell!)
-                let tweet = cell!.tweet
-                let vc = segue.destinationViewController as! ComposeViewController
-                vc.replyToTweet = tweet
-                vc.replyToUser = tweet.user
+                if cell != nil {
+                    let indexPath = tableView.indexPathForCell(cell!)
+                    let tweet = cell!.tweet
+                    let vc = segue.destinationViewController as! ComposeViewController
+                    vc.replyToTweet = tweet
+                    vc.replyToUser = tweet.user
+                }
             }
         }
     }
