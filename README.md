@@ -29,3 +29,6 @@ Optional
 
 
 - The raw link on http://courses.coderschool.vn/content/week_3/readme links to the wrong README file
+
+# Walkthrough
+![](Twitter.gif)
